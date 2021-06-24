@@ -33,13 +33,13 @@ window.addEventListener('load', getata())
 //Dynamic urls
 let productId = '1' //valor vem de onde? de um split do link da imagem da homepage?
 const urlAPI = (`http://localhost:5000/api/getProduct?productId=${productId}`)
-const urlProd = (`https://edit-shop-api.herokuapp.com/product.html?productId=${productId}`)
+const urlProd = (`http://localhost:5000/product.html#${productId}`)
 
 //Get Data
 async function getData () {
 
     //Update pageURL
-    //document.location.href = urlProd 
+    document.location.href = urlProd 
 
     //Fetch - Return Promise
     const response = await fetch(urlAPI);
@@ -81,7 +81,7 @@ async function getData () {
     console.log(htmlStars) //All stars
 
     for(i=0;i<productScore; i++){ //Nao consigo fazer com que o forEach funcione
-        htmlStars[i].className = 'icn-star primary'
+        htmlStars[i].classList.add('primary')
     }
 
     //Set HTML product sizes

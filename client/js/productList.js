@@ -24,40 +24,50 @@ CHALLENGE:
 
 // - Apply sortBy, category and sizes.
 
-//1: open and close Categories filter
+//1: open and close Categories filter >>>> Nao está a funcionar
 
 const openClose = document.getElementsByClassName('open')[0]
-const openIcon = openClose.getElementsByClassName('icn-chevron-down')[0]
-const closeIcon = openClose.getElementsByClassName('icn-chevron-up')[0]
+const openIcon = openClose.getElementsByTagName('i')[0]
+const closeIcon = openClose.getElementsByTagName('i')[1]
 
-let categoryOpenClose = () => {
-
-    openIcon.addEventListener('click', function() {
-        openClose.ClassName = 'open'
-        closeIcon.display = 'none'
-        openIcon.display = 'block'
-     })
-
-     /*
-     closeIcon.addEventListener('click', function() {
-        openClose.ClassName = ''
-        openIcon.display = 'none'
-        closeIcon.display = 'block'
-    })
-    */
-}
-
-categoryOpenClose()
+closeIcon.addEventListener('click', function(){
+    openClose.classList.remove('open')
+    openIcon.display = 'block'
+    closeIcon.display = 'none'
+    console.log(closeIcon)
+    console.log(openClose)
+})
 
 
+openIcon.addEventListener('click', function(){
+    openClose.classList.add('open')
+    openIcon.display = 'none'
+    closeIcon.display = 'block'
+    console.log(closeIcon)
+    console.log(openClose)
+})
+
+//Get Data
+
+const urlAPI = (`http://localhost:5000/api/getProductsList?nProducts=${numberProducts}&sortBy=${sortBy}`)
+let numberProducts = 10
+let sortBy = ['price', 'name']
 
 
+async function getData () {
 
-
-
-
-
-
+    //Fetch - Return Promise
+    const response = await fetch(urlAPI);
+    const data = await response.json();
+    const product = data 
+    console.log('this is the product object',product)
+    
+    //Destructuring
+    const {id, name, partnership, brand, madeIn, description, image, price, score, sizes} = product;
+    
+    //Get parameterId
+    productId = id;
+    console.log('the product id parameter is:',id)
 
 
 
