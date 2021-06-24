@@ -18,12 +18,11 @@ let urlProduct = (urlProdshop,productId) => {   // Duvida: preciso que seja uma 
     return newUrl = (`${urlProdshop}${productId}`)
 }
 
-
 // 2- Add - Event Listener to change URL
 // Erro - o URL carrega antes de fazer o update da informação. 
 // Ideia - IF getData = resolve > entao change url - procurar info
-/*
-window.addEventListener('DOMContentLoaded', function() {
+
+/*window.addEventListener('load', function() {
    document.location.href = urlProduct(urlProdshop,productId)
    })
 */
@@ -50,7 +49,7 @@ async function getData () {
     console.log('the product id parameter is:',id)
 
     //Get roundScoreValue
-    const productScore = Math.round(score)
+    productScore = Math.round(score)
     console.log('the data score:',score, 'was rounded into the product score:', productScore)
 
     //Get sizes
@@ -72,12 +71,12 @@ async function getData () {
     console.log(htmlScore)
 
     //Set HTML product stars
-    const htmlStars = [document.getElementsByClassName("score")[0].getElementsByTagName("i")]
+    const htmlStars = document.getElementsByClassName("score")[0].getElementsByTagName("i")
     console.log(htmlStars) //All stars
-    let result = []
-    //htmlStars.forEach(star => {
-    //    result.ClassList("primary")
-    //})
+
+    for(i=0;i<productScore; i++){
+        htmlStars[i].className = 'icn-star primary'
+    }
 
 
 } //END FECTH
