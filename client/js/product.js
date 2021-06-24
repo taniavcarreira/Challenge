@@ -11,29 +11,36 @@ Stars rating should be rounded (2.5 should display 3 full stars)
 
 // 1- Set Dynamic URL
 // Falta definir de onde vem o valor do parâmetro - 
-
 const urlProdshop = 'https://edit-shop-api.herokuapp.com/product.html?productId='
-let productId = '1' //valor vem de um split do link da imagem da homepage?
 let urlProduct = (urlProdshop,productId) => {   // Duvida: preciso que seja uma função??
     return newUrl = (`${urlProdshop}${productId}`)
 }
 
 // 2- Add - Event Listener to change URL
 // Erro - o URL carrega antes de fazer o update da informação. 
-// Ideia - IF getData = resolve > entao change url - procurar info
-
-/*window.addEventListener('load', function() {
+// Ideia - criar promise/verificar se resolvida e dps correr recuperaçao de dados? IF getData = resolve > entao change url - procurar info
+/*
+window.addEventListener('load', function() {
    document.location.href = urlProduct(urlProdshop,productId)
-   })
+})
+                                               ou
+window.addEventListener('load', getata())
+
 */
 
 // 3- DOING - Get ApiData and DOMManipulation - update HTML
 
-//Dynamic url
+//Dynamic urls
 const urlAPI = (`http://localhost:5000/api/getProduct?productId=${productId}`)
+const urlProd = (`https://edit-shop-api.herokuapp.com/product.html?productId=${productId}`)
+let productId = '1' //valor vem de onde? de um split do link da imagem da homepage?
 
 //Get Data
 async function getData () {
+
+    //Update pageURL
+    //document.location.href = urlProd
+
     //Fetch - Return Promise
     const response = await fetch(urlAPI);
     const data = await response.json();
@@ -87,4 +94,22 @@ async function getData () {
         }
     }
 } //END FECTH
-getData()
+
+getData() //EXECUTAR A FUNÇÃO ATRAVÉS DO LISTENER
+
+/*
+DUVIDAS: 
+De onde vem o parametro quando entro na página?
+
+ERROS: 
+Ao alterar o URL a página deixa de executar o getData e a informação nao é actualizada
+
+NOTAS:
+O redireccionamento do Url é um processo lento que pede a execução de uma promessa
+Não consegui fazer um array.map da promise data
+Não consegui fazer for.each para atribuir classes nas stars
+Não consegui fazer for.each para activar os botoes sizes
+
+
+
+*/
