@@ -13,7 +13,7 @@ Stars rating should be rounded (2.5 should display 3 full stars)
 // Falta definir de onde vem o valor do parâmetro - 
 
 const urlProdshop = 'https://edit-shop-api.herokuapp.com/product.html?productId='
-let productId = '2' //valor vem de um split do link da imagem da homepage?
+let productId = '1' //valor vem de um split do link da imagem da homepage?
 let urlProduct = (urlProdshop,productId) => {   // Duvida: preciso que seja uma função??
     return newUrl = (`${urlProdshop}${productId}`)
 }
@@ -26,7 +26,6 @@ let urlProduct = (urlProdshop,productId) => {   // Duvida: preciso que seja uma 
    document.location.href = urlProduct(urlProdshop,productId)
    })
 */
-
 
 // 3- DOING - Get ApiData and DOMManipulation - update HTML
 
@@ -74,29 +73,18 @@ async function getData () {
     const htmlStars = document.getElementsByClassName("score")[0].getElementsByTagName("i")
     console.log(htmlStars) //All stars
 
-    for(i=0;i<productScore; i++){
+    for(i=0;i<productScore; i++){ //Nao consigo fazer com que o forEach funcione
         htmlStars[i].className = 'icn-star primary'
     }
 
-
+    //Set HTML product sizes
+    const htmlSizes = document.getElementsByClassName("sizebtns")[0].getElementsByTagName("button")
+    console.log(htmlSizes) //All buttons size 
+    //Enabling available sizes
+    for(i=0;i<htmlSizes.length; i++){ //Nao consigo fazer com que o forEach funcione
+        if(productSizes[i] > 0){
+        htmlSizes[i].removeAttribute('disabled')
+        }
+    }
 } //END FECTH
 getData()
-    
-
-/*   
-// 3- DONE - Função construtora para criar Produtos com base na recuperação da chave API
-let Product = function() {
-    this.id 
-    this.url 
-    this.image 
-    this.name
-    this.category 
-    this.price 
-    this.description 
-    this.brand
-    this.partnership
-    this.score 
-    this.sizes
-}
-let product = new Product()
-*/
