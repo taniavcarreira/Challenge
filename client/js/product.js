@@ -11,15 +11,15 @@ CHALLENGE:
 
 // 1 - Get ApiData and DOMManipulation - update HTML
 //Dynamic urls
-let productId = 7 //window.location.href.split('id=')[1])
-const urlAPI = (`http://localhost:5000/api/getProduct?productId=${productId}`)
-const urlProd = (`http://localhost:5000/product.html#${productId}`)
+
+
+document.addEventListener ('DOMContentLoaded',  async () => { 
+
+let productId = 1 //window.location.href.split('id=')[1] 
+const urlAPI = `/api/getProduct?productId=${productId}`
 
 //Get Data
-async function getData () {
-
-    //Update pageURL
-    document.location.href = urlProd 
+//async function getData () {
 
     //Fetch - Return Promise
     const response = await fetch(urlAPI);
@@ -74,24 +74,5 @@ async function getData () {
         htmlSizes[i-1].removeAttribute('disabled')
         console.log(htmlSizes[i-1])
         }
-    }
-} 
-//End fetch
-
-getData() //END - FALTA EXECUTAR A FUNÇÃO ATRAVÉS DO LISTENER APOS Redireccionamento URL
-
-/*
-DUVIDAS: 
-htmlSizes i-1 porque o nth-child button começa em 1. 
-
-ERROS: 
-Ao alterar o URL a página deixa de executar o getData e a informação nao é actualizada
-
-NOTAS:
-O redireccionamento do Url é um processo lento que pede a execução de uma promessa
-Não consegui fazer um array.map da promise data
-
-OBS:
-function constructor + destructur: aula 270
-
-*/
+    } 
+})

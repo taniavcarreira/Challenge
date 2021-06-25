@@ -49,9 +49,9 @@ let getSelectValue = () => {
     selectedValue.setAttribute = ('selected','true') // change selected - not working
     console.log(selectedValue)
     
-    let selected = selectSortby.selectedIndex
+   /* let selected = selectSortby.selectedIndex
     let options = selectSortby.options
-    console.log(options[selected].value)
+    console.log(options[selected].value) */
 
     //return activeSelected = selectSortby[selectSortby.selectedIndex].selected
     return selectedValue // change selected - not working
