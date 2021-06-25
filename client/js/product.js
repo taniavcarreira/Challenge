@@ -9,29 +9,9 @@ CHALLENGE:
     Stars rating should be rounded (2.5 should display 3 full stars)
 */
 
-
-// 1- Set Dynamic URL
-// Falta definir de onde vem o valor do parâmetro - 
-const urlProdshop = 'https://edit-shop-api.herokuapp.com/product.html?productId='
-let urlProduct = (urlProdshop,productId) => {   // Duvida: preciso que seja uma função??
-    return newUrl = (`${urlProdshop}${productId}`)
-}
-
-// 2- Add - Event Listener to change URL
-// Erro - o URL carrega antes de fazer o update da informação. 
-// Ideia - criar promise/verificar se resolvida e dps correr recuperaçao de dados? IF getData = resolve > entao change url - procurar info
-/*
-window.addEventListener('load', function() {
-   document.location.href = urlProduct(urlProdshop,productId)
-})
-                                               ou
-window.addEventListener('load', getata())
-
-*/
-
-// 3 - Get ApiData and DOMManipulation - update HTML
+// 1 - Get ApiData and DOMManipulation - update HTML
 //Dynamic urls
-let productId = '1' //valor vem de onde? de um split do link da imagem da homepage?
+let productId = 7 //window.location.href.split('id=')[1])
 const urlAPI = (`http://localhost:5000/api/getProduct?productId=${productId}`)
 const urlProd = (`http://localhost:5000/product.html#${productId}`)
 
@@ -73,7 +53,7 @@ async function getData () {
     
     //Set HTML product score
     const htmlScore = document.getElementsByClassName("score")[0].getElementsByTagName("span")[0]
-    htmlScore.innerText = `score of ${productScore}`
+    htmlScore.innerText = `score of ${score}`
     console.log(htmlScore)
 
     //Set HTML product stars
@@ -88,9 +68,11 @@ async function getData () {
     const htmlSizes = document.getElementsByClassName("sizebtns")[0].getElementsByTagName("button")
     console.log(htmlSizes) //All buttons size 
     //Enabling available sizes
-    for(i=0;i<htmlSizes.length; i++){ 
+    for(i=0;i<=htmlSizes.length; i++){ 
         if(productSizes[i] > 0){
-        htmlSizes[i].removeAttribute('disabled')
+            console.log(productSizes[i-1])
+        htmlSizes[i-1].removeAttribute('disabled')
+        console.log(htmlSizes[i-1])
         }
     }
 } 
@@ -100,7 +82,7 @@ getData() //END - FALTA EXECUTAR A FUNÇÃO ATRAVÉS DO LISTENER APOS Redireccio
 
 /*
 DUVIDAS: 
-De onde vem o parametro quando entro na página?
+htmlSizes i-1 porque o nth-child button começa em 1. 
 
 ERROS: 
 Ao alterar o URL a página deixa de executar o getData e a informação nao é actualizada
