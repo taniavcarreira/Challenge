@@ -80,7 +80,7 @@ async function getData () {
     const htmlStars = document.getElementsByClassName("score")[0].getElementsByTagName("i")
     console.log(htmlStars) //All stars
 
-    for(i=0;i<productScore; i++){ //Nao consigo fazer com que o forEach funcione
+    for(i=0;i<productScore; i++){
         htmlStars[i].classList.add('primary')
     }
 
@@ -108,8 +108,6 @@ Ao alterar o URL a página deixa de executar o getData e a informação nao é a
 NOTAS:
 O redireccionamento do Url é um processo lento que pede a execução de uma promessa
 Não consegui fazer um array.map da promise data
-Não consegui fazer for.each para atribuir classes nas stars
-Não consegui fazer for.each para activar os botoes sizes
 
 OBS:
 function constructor + destructur: aula 270
