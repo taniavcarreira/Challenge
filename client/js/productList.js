@@ -7,7 +7,6 @@ CHALLENGE:
     
     I can unselect filters. Done
     All the products should have their route correct. >>>>>>>>>>>>>>>>>>>>>>>>< To DO URL update
-    e.g - https://edit-shop-api.herokuapp.com/product.html?id=1
     Notes #2
     Category ids available:
     1 - snickers
@@ -32,6 +31,16 @@ const constructor = (a) => {
     productSection.innerHTML = ''
 
     for(i=0; i<a;i++){
+        const sizeThumbs = '240w'
+        const sizeSmall = '640w'
+        const sizeMedium = '720w'
+        const src = '1200w'
+        const imgThumbs = `/imgs/products/thumbs/thumb${productList[i]['id']}.jpg ${sizeThumbs}`;
+        const imgSmall = `/imgs/products/small/product${productList[i]['id']}.jpg ${sizeSmall}`
+        const imgMedium = `/imgs/products/medium/product${productList[i]['id']}.jpg ${sizeMedium}`
+        const imgSrc = `/imgs/products/product${productList[i]['id']}-${src}.jpg ${src}`
+// API devolve: /imgs/products/product14.jpg 
+
         let cardProduct = document.createElement('a')
         cardProduct.className = 'product-card col-6 col-d-4'
         cardProduct.href = `product.html?id=${productList[i]['id']}`
@@ -39,7 +48,10 @@ const constructor = (a) => {
 
         let cardProductdetail = 
         `<div class="product-card-image">
-            <img class="imgfit" src="${productList[i]['image']}">
+            <img class="imgfit" 
+            srcset="${imgThumbs}, ${imgSmall}, ${imgMedium}, ${imgSrc}"
+            sizes="(min-width: 1200px) 720px, (min-width: 750px) 640px, 240px"
+            src="${productList[i]['image']}">
         </div>
         <p class="margintophalf marginbottomnone">${productList[i]['name']}</p>
         <p class="gray marginnone">${productList[i]['category'].map (i => category[i-1])}</p>
@@ -53,10 +65,10 @@ const constructor = (a) => {
     loadMore.id = 'loadmore'
     loadMore.setAttribute('onclick', 'addMore()')
     const loadMoredetail = `
-    <a href="#" title="Load More">
+    <button href="#" title="Load More">
     <i class="icn-reload"></i>
     Load More
-    </div>`
+    </button>`
     loadMore.innerHTML= loadMoredetail
     productSection.appendChild(loadMore)
 
@@ -64,12 +76,10 @@ const constructor = (a) => {
         loadMore.style = 'visibility:hidden'
     } else {
         loadMore.removeAttribute = 'style'
-    }
-
-
-//Se o numero de produtos da página (elementChild do productSection) for inferior ao numero de produtos do NumberOfProducts então add Style: visibily hidden. 
-    
+    }    
 }
+
+
 
 // Display products
 const refreshList = () => {
@@ -172,11 +182,11 @@ document.addEventListener("DOMContentLoaded", () => {
         //const loadMore = productSection.lastElementChild //Nao identifica a div :  devolve null 
         //loadMore.addEventListener('click', addmore())
     
-        addMore = () => {
-            numberOfProduct += 10 
-            console.log(numberOfProduct)
-            refreshList();
-        }
+    addMore = () => {
+        numberOfProduct += 10 
+        console.log(numberOfProduct)
+        refreshList();
+    }
 })
 
 
