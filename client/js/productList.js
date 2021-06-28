@@ -29,7 +29,7 @@ let numberOfProduct = 10
 let productSection = document.getElementById('mainproductlist')
 const category = ['snickers', 'coats', 'pants', 'jackets']
 let categoriesToFilter = []
-const sizes = {'1','2','3','4'}
+const sizes = ['1', '2', '3', '4']
 let sizesToFilter = []
 
 const constructor = (a) => {
@@ -83,34 +83,33 @@ const refreshList = () => {
         }
 
 
-        
-        if(sizesToFilter.length > 0) {
-            for(i=0; i<productList.length;i++){
-                let  sizesAvailable = []
-                Object.keys(productList[i].sizes).forEach(key => {
-                    if (productList[i].sizes[key] !== 0) {
-                        sizesAvailable.push(key)
+        for(i = 0; i < productList.length;i++){
+            let  sizesAvailable = []
+            Object.keys(productList[i].sizes).forEach(key => {
+                if (productList[i].sizes[key] > 0) {
+                    sizesAvailable.push(parseInt(key))
+                    //console.log(sizesAvailable)
+                    productList[i].sizesAvailable = sizesAvailable //assign array to object
+                    //console.log(productList[i].sizesAvailable)
+                }
+                return productList[i]
+            })
+            //console.log('final debug do Id:'+ productList[i].id + ' ' + productList[i].sizesAvailable)
+        } 
 
-                        let product = productList[i]
-                        //console.log(product.sizes) //comparar com 
-                        //debugger    
-                        productList[i].sizesAvailable = sizesAvailable //assign array to object
-                        //console.log(productList[i].sizesAvailable) //comparar com 
-                    }
-                    return productList
-                })
-                console.log(productList[i].sizesAvailable)
-                return productList
-            }  
+        if(sizesToFilter.length > 0) {
             productList = productList.filter(product => 
                 product.sizesAvailable.some(sizeId => 
                     sizesToFilter.indexOf(sizeId) !== -1))
-                    debugger
                     console.log(productList);
-                    //constructor(productList.length)
+                    constructor(productList.length)
+                    
+            return productList
         }
-    
-    })        
+
+        //return productList    
+    })   
+    //return productList         
 }
 // EXECUTE - Filters PriceList
 document.addEventListener("DOMContentLoaded", () => {
@@ -149,7 +148,7 @@ document.addEventListener("DOMContentLoaded", () => {
         button.addEventListener('click', () => {
 
             const sizeId = i+1;
-            //console.log(sizeId)
+            console.log(sizeId)
             if(sizesToFilter.indexOf(sizeId) === -1) {
                 sizesToFilter.push(sizeId);
                 button.style = 'border-color:darkgrey; font-weight:700'
@@ -166,8 +165,15 @@ document.addEventListener("DOMContentLoaded", () => {
 })
 
 
-//Categories + Sizes
-//dentro do refreshList
+
+
+
+
+
+
+
+
+
 
 
 //se o nTotalProdutos da página !== nProductNumber entao esconde o loadMore
@@ -183,3 +189,6 @@ document.addEventListener("DOMContentLoaded", () => {
     // // refreshList();
     // // console.log(sortBy)
     // })
+
+
+
