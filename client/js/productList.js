@@ -1,23 +1,19 @@
 /* 
 CHALLENGE: 
-    Listing page (2/3)
-    Apply sortBy, category and sizes.
-
-    Fetch information from the server
-    Should reload product list
+    Listing page (2/3) Done
+    Apply sortBy, category and sizes. Done
+    Fetch information from the server. Done
+    Should reload product list  >>>>>>>>>>>>>>>>>>>>>> To Do Load More
     
-    I can unselect filters.
-
-    All the products should have their route correct.
+    I can unselect filters. Done
+    All the products should have their route correct. >>>>>>>>>>>>>>>>>>>>>>>>< To DO URL update
     e.g - https://edit-shop-api.herokuapp.com/product.html?id=1
-
     Notes #2
     Category ids available:
     1 - snickers
     2 - coats
     3 - pants
     4 - jackets
-
     http://localhost:5000/productlist.html
 */
 
@@ -55,6 +51,7 @@ const constructor = (a) => {
     let loadMore = document.createElement('div')
     loadMore.className = 'central-link-light marginbottomdouble'
     loadMore.id = 'loadmore'
+    loadMore.setAttribute('onclick', 'addMore()')
     const loadMoredetail = `
     <a href="#" title="Load More">
     <i class="icn-reload"></i>
@@ -62,6 +59,16 @@ const constructor = (a) => {
     </div>`
     loadMore.innerHTML= loadMoredetail
     productSection.appendChild(loadMore)
+
+    if(productSection.childNodes.length-1 < numberOfProduct){
+        loadMore.style = 'visibility:hidden'
+    } else {
+        loadMore.removeAttribute = 'style'
+    }
+
+
+//Se o numero de produtos da página (elementChild do productSection) for inferior ao numero de produtos do NumberOfProducts então add Style: visibily hidden. 
+    
 }
 
 // Display products
@@ -162,16 +169,15 @@ document.addEventListener("DOMContentLoaded", () => {
     })
 
     // LoadMore
+        //const loadMore = productSection.lastElementChild //Nao identifica a div :  devolve null 
+        //loadMore.addEventListener('click', addmore())
+    
+        addMore = () => {
+            numberOfProduct += 10 
+            console.log(numberOfProduct)
+            refreshList();
+        }
 })
-
-
-
-
-
-
-
-
-
 
 
 
@@ -184,11 +190,4 @@ document.addEventListener("DOMContentLoaded", () => {
 
     //     let nProductlisted = productSection.childNodes
     //     console.log(nProductlisted)
-
-    // // numberOfProduct = numberOfProduct + 10
-    // // refreshList();
-    // // console.log(sortBy)
-    // })
-
-
 
