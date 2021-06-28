@@ -27,7 +27,7 @@ let categoriesToFilter = []
 const sizes = ['1', '2', '3', '4']
 let sizesToFilter = []
 
-const constructor = (a) => {
+const builder = (a) => {
     productSection.innerHTML = ''
 
     for(i=0; i<a;i++){
@@ -39,7 +39,6 @@ const constructor = (a) => {
         const imgSmall = `/imgs/products/small/product${productList[i]['id']}.jpg ${sizeSmall}`
         const imgMedium = `/imgs/products/medium/product${productList[i]['id']}.jpg ${sizeMedium}`
         const imgSrc = `/imgs/products/product${productList[i]['id']}-${src}.jpg ${src}`
-// API devolve: /imgs/products/product14.jpg 
 
         let cardProduct = document.createElement('a')
         cardProduct.className = 'product-card col-6 col-d-4'
@@ -63,7 +62,7 @@ const constructor = (a) => {
     let loadMore = document.createElement('div')
     loadMore.className = 'central-link-light marginbottomdouble'
     loadMore.id = 'loadmore'
-    loadMore.setAttribute('onclick', 'addMore()')
+    //loadMore.setAttribute('onclick', 'addMore()')
     const loadMoredetail = `
     <button href="#" title="Load More">
     <i class="icn-reload"></i>
@@ -71,6 +70,8 @@ const constructor = (a) => {
     </button>`
     loadMore.innerHTML= loadMoredetail
     productSection.appendChild(loadMore)
+    // const loadMore = productSection.lastElementChild //Nao identifica a div :  devolve null 
+    productSection.lastElementChild.addEventListener('click', addMore) //para identificar
 
     if(productSection.childNodes.length-1 < numberOfProduct){
         loadMore.style = 'visibility:hidden'
@@ -89,14 +90,14 @@ const refreshList = () => {
     .then(resp => resp.json())
     .then(({ data }) => { 
         productList = data
-        constructor(productList.length)
+        builder(productList.length)
 
         if(categoriesToFilter.length > 0) {
             productList = productList.filter(product => 
                 product.category.some(categoryId => 
                     categoriesToFilter.indexOf(categoryId) !== -1))
                     console.log(productList);
-                    constructor(productList.length)
+                    builder(productList.length)
         }
 
 
@@ -119,7 +120,7 @@ const refreshList = () => {
                 product.sizesAvailable.some(sizeId => 
                     sizesToFilter.indexOf(sizeId) !== -1))
                     console.log(productList);
-                    constructor(productList.length)
+                    builder(productList.length)
                     
             return productList
         }
@@ -179,8 +180,7 @@ document.addEventListener("DOMContentLoaded", () => {
     })
 
     // LoadMore
-        //const loadMore = productSection.lastElementChild //Nao identifica a div :  devolve null 
-        //loadMore.addEventListener('click', addmore())
+
     
     addMore = () => {
         numberOfProduct += 10 
