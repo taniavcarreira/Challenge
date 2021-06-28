@@ -21,45 +21,21 @@ CHALLENGE:
     http://localhost:5000/productlist.html
 */
 
-
-// - Apply sortBy, category and sizes.
-
-//const priceFilter = document.querySelector('div#sortbar option:nth-child(1)')
-//const nameFilter = document.querySelector('div#sortbar option:nth-child(2)')
-
 const selectSortby = document.getElementsByTagName('select')[0]
 selectSortby.setAttribute('onchange', 'getSelectValue()')
-    numberOfProduct = 10
 
-    //nameFilter.setAttribute('selected','selected')
-    //priceFilter.removeAttribute('selected','selected')
+let sortBy = "price"
+let numberOfProduct = 10
+let productSection = document.getElementById('mainproductlist')
+const category = ['snickers', 'coats', 'pants', 'jackets']
+let categoriesToFilter = []
+const sizes = {'1','2','3','4'}
+let sizesToFilter = []
 
-let getSelectValue = () => {
-    let selectedValue = document.querySelector('div#sortbar select').value.toLowerCase()
-    console.log(selectedValue)
+const constructor = (a) => {
+    productSection.innerHTML = ''
 
-    urlAPI = `http://localhost:5000/api/getProductsList?nProducts=${numberOfProduct}&sortBy=${selectedValue}`
-
-    console.log(urlAPI)
-
-    return  urlFetch = urlAPI,
-            numberOfProduct = 10
-}
-getSelectValue()
-
-fetch(urlFetch)
-.then((resp) => resp.json())
-.then((data) => { 
-    productList = data.data
-    console.log(productList)
-
-    const productSection = document.getElementById('mainproductlist')
-    console.log(productSection)
-
-    let category = ['snickers', 'coats', 'pants', 'jackets']
- 
-
-    for(i=0; i<productList.length;i++){
+    for(i=0; i<a;i++){
         let cardProduct = document.createElement('a')
         cardProduct.className = 'product-card col-6 col-d-4'
         cardProduct.href = `product.html?id=${productList[i]['id']}`
@@ -70,48 +46,140 @@ fetch(urlFetch)
             <img class="imgfit" src="${productList[i]['image']}">
         </div>
         <p class="margintophalf marginbottomnone">${productList[i]['name']}</p>
-        <p class="gray marginnone">${productList[i]['category'].map (d => category[d])}</p>
+        <p class="gray marginnone">${productList[i]['category'].map (i => category[i-1])}</p>
         <p class="secondary marginnone">${productList[i]['price']}</p>`
 
         cardProduct.innerHTML= cardProductdetail
-        productSection.prepend(cardProduct)
+        productSection.appendChild(cardProduct)
     }
+    let loadMore = document.createElement('div')
+    loadMore.className = 'central-link-light marginbottomdouble'
+    loadMore.id = 'loadmore'
+    const loadMoredetail = `
+    <a href="#" title="Load More">
+    <i class="icn-reload"></i>
+    Load More
+    </div>`
+    loadMore.innerHTML= loadMoredetail
+    productSection.appendChild(loadMore)
+}
+
+// Display products
+const refreshList = () => {
+    let urlAPI = `/api/getProductsList?nProducts=${numberOfProduct}&sortBy=${sortBy}`
+    productSection.innerHTML = ''
+    fetch(urlAPI)
+    .then(resp => resp.json())
+    .then(({ data }) => { 
+        productList = data
+        constructor(productList.length)
+
+        if(categoriesToFilter.length > 0) {
+            productList = productList.filter(product => 
+                product.category.some(categoryId => 
+                    categoriesToFilter.indexOf(categoryId) !== -1))
+                    console.log(productList);
+                    constructor(productList.length)
+        }
+
+
+        
+        if(sizesToFilter.length > 0) {
+            for(i=0; i<productList.length;i++){
+                let  sizesAvailable = []
+                Object.keys(productList[i].sizes).forEach(key => {
+                    if (productList[i].sizes[key] !== 0) {
+                        sizesAvailable.push(key)
+
+                        let product = productList[i]
+                        //console.log(product.sizes) //comparar com 
+                        //debugger    
+                        productList[i].sizesAvailable = sizesAvailable //assign array to object
+                        //console.log(productList[i].sizesAvailable) //comparar com 
+                    }
+                    return productList
+                })
+                console.log(productList[i].sizesAvailable)
+                return productList
+            }  
+            productList = productList.filter(product => 
+                product.sizesAvailable.some(sizeId => 
+                    sizesToFilter.indexOf(sizeId) !== -1))
+                    debugger
+                    console.log(productList);
+                    //constructor(productList.length)
+        }
+    
+    })        
+}
+// EXECUTE - Filters PriceList
+document.addEventListener("DOMContentLoaded", () => {
+    refreshList()
+
+    //SortBy
+    getSelectValue = () => {
+        sortBy = document.querySelector('div#sortbar select').value.toLowerCase()
+        refreshList();
+        console.log(sortBy)
+    }
+
+    // Categories
+    const catFilters = document.querySelectorAll('.categories ul > li')
+    catFilters.forEach((li, i) => {
+        li.addEventListener('click', () => {
+
+            const categoryId = i+1;
+            console.log(categoryId)
+            if(categoriesToFilter.indexOf(categoryId) === -1) {
+                categoriesToFilter.push(categoryId);
+                li.children[0].style.fontWeight = '700'
+
+
+            } else {
+                categoriesToFilter = categoriesToFilter.filter( id => id !== categoryId)
+                li.children[0].removeAttribute('style')
+            }
+        refreshList()
+        })
+    })
+
+    // Sizes
+    const sizeFilters = document.querySelectorAll('.sizebtns  button')
+    sizeFilters.forEach((button, i) => {
+        button.addEventListener('click', () => {
+
+            const sizeId = i+1;
+            //console.log(sizeId)
+            if(sizesToFilter.indexOf(sizeId) === -1) {
+                sizesToFilter.push(sizeId);
+                button.style = 'border-color:darkgrey; font-weight:700'
+            } 
+            else {
+                sizesToFilter = sizesToFilter.filter( id => id !== sizeId)
+                button.removeAttribute('style')
+            }
+        refreshList()
+        })
+    })
+
+    // LoadMore
 })
 
 
+//Categories + Sizes
+//dentro do refreshList
 
 
+//se o nTotalProdutos da página !== nProductNumber entao esconde o loadMore
 
+    // //LoadMore
+    // let loadMore = document.getElementById('loadmore')
+    // loadMore.addEventListener('click', (e) => {
 
+    //     let nProductlisted = productSection.childNodes
+    //     console.log(nProductlisted)
 
-
-
-
-
-
-
-
-
-
-
-
-/*
-let selectedValue = document.querySelector('div#sortbar select').value
-    selectedValue.setAttribute = ('selected','true') // change selected - not working
-    console.log(selectedValue)
-    
-   /* let selected = selectSortby.selectedIndex
-    let options = selectSortby.options
-    console.log(options[selected].value) 
-    
-    
-     if(selected == nameFilter.value){
-        nameFilter.setAttribute('selected','selected')
-        priceFilter.removeAttribute('selected','selected')
-
-    } else{
-        priceFilter.setAttribute('selected','selected')
-        nameFilter.removeAttribute = ('selected','selected')
-    }
-    
-    */
+    // // numberOfProduct = numberOfProduct + 10
+    // // refreshList();
+    // // console.log(sortBy)
+    // })

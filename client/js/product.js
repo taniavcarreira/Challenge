@@ -15,7 +15,7 @@ CHALLENGE:
 
 document.addEventListener ('DOMContentLoaded',  async () => { 
 
-let productId = 1 //window.location.href.split('id=')[1] 
+let productId = window.location.href.split('id=')[1] 
 const urlAPI = `/api/getProduct?productId=${productId}`
 
 //Get Data
@@ -25,22 +25,22 @@ const urlAPI = `/api/getProduct?productId=${productId}`
     const response = await fetch(urlAPI);
     const data = await response.json();
     const product = data 
-    console.log('this is the product object',product)
+    //console.log('this is the product object',product)
     
     //Destructuring
     const {id, name, partnership, brand, madeIn, description, image, price, score, sizes} = product;
     
     //Get parameterId
     productId = id;
-    console.log('the product id parameter is:',id)
+    //console.log('the product id parameter is:',id)
 
     //Get roundScoreValue
     productScore = Math.round(score)
-    console.log('the data score:',score, 'was rounded into the product score:', productScore)
+    //console.log('the data score:',score, 'was rounded into the product score:', productScore)
 
     //Get sizes
     productSizes = sizes
-    console.log('Available product sizes',productSizes)    
+    //console.log('Available product sizes',productSizes)    
 
     //Set HTML product info
     document.getElementById("name").innerText = name;
@@ -54,11 +54,11 @@ const urlAPI = `/api/getProduct?productId=${productId}`
     //Set HTML product score
     const htmlScore = document.getElementsByClassName("score")[0].getElementsByTagName("span")[0]
     htmlScore.innerText = `score of ${score}`
-    console.log(htmlScore)
+    //console.log(htmlScore)
 
     //Set HTML product stars
     const htmlStars = document.getElementsByClassName("score")[0].getElementsByTagName("i")
-    console.log(htmlStars) //All stars
+    //console.log(htmlStars) //All stars
 
     for(i=0;i<productScore; i++){
         htmlStars[i].classList.add('primary')
@@ -66,13 +66,13 @@ const urlAPI = `/api/getProduct?productId=${productId}`
 
     //Set HTML product sizes
     const htmlSizes = document.getElementsByClassName("sizebtns")[0].getElementsByTagName("button")
-    console.log(htmlSizes) //All buttons size 
+    //console.log(htmlSizes) //All buttons size 
     //Enabling available sizes
     for(i=0;i<=htmlSizes.length; i++){ 
         if(productSizes[i] > 0){
-            console.log(productSizes[i-1])
+            //console.log(productSizes[i-1])
         htmlSizes[i-1].removeAttribute('disabled')
-        console.log(htmlSizes[i-1])
+        //console.log(htmlSizes[i-1])
         }
     } 
 })
